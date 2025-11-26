@@ -1,96 +1,96 @@
 {
-	"name": "@bniddam-labs/core",
-	"version": "0.1.0",
-	"description": "Core infrastructure package for NestJS backend (config, logging, error handling, HTTP filters/interceptors)",
-	"main": "./dist/index.js",
-	"module": "./dist/index.mjs",
-	"types": "./dist/index.d.ts",
-	"exports": {
-		".": {
-			"types": "./dist/index.d.ts",
-			"import": "./dist/index.mjs",
-			"require": "./dist/index.js"
-		},
-		"./config": {
-			"types": "./dist/config/index.d.ts",
-			"import": "./dist/config/index.mjs",
-			"require": "./dist/config/index.js"
-		},
-		"./logging": {
-			"types": "./dist/logging/index.d.ts",
-			"import": "./dist/logging/index.mjs",
-			"require": "./dist/logging/index.js"
-		},
-		"./http": {
-			"types": "./dist/http/index.d.ts",
-			"import": "./dist/http/index.mjs",
-			"require": "./dist/http/index.js"
-		}
-	},
-	"scripts": {
-		"build": "tsup",
-		"dev": "tsup --watch",
-		"clean": "rm -rf dist",
-		"lint": "biome lint .",
-		"lint:fix": "biome lint --write .",
-		"format": "biome format --write .",
-		"check": "biome check . && pnpm run typecheck",
-		"typecheck": "tsc --noEmit",
-		"test": "vitest",
-		"test:watch": "vitest --watch",
-		"test:coverage": "vitest --coverage",
-		"prepublishOnly": "pnpm run build"
-	},
-	"keywords": [
-		"nestjs",
-		"core",
-		"infrastructure",
-		"configuration",
-		"logging",
-		"error-handling",
-		"http-filters",
-		"interceptors"
-	],
-	"author": "bniddam",
-	"license": "MIT",
-	"repository": {
-		"type": "git",
-		"url": "git+https://github.com/bniddam-labs/core.git"
-	},
-	"bugs": {
-		"url": "https://github.com/bniddam-labs/core/issues"
-	},
-	"homepage": "https://github.com/bniddam-labs/core#readme",
-	"files": [
-		"src",
-		"dist",
-		"README.md",
-		"LICENSE",
-		"*.json",
-		"*.ts"
-	],
-	"peerDependencies": {
-		"@nestjs/common": "^11.0.0",
-		"@nestjs/core": "^11.0.0"
-	},
-	"dependencies": {
-		"@bniddam-labs/utils": "github:bniddam-labs/utils#v0.2.0",
-		"reflect-metadata": "^0.2.2",
-		"rxjs": "^7.8.1",
-		"zod": "^3.24.1"
-	},
-	"devDependencies": {
-		"@biomejs/biome": "2.3.2",
-		"@nestjs/common": "^11.0.0",
-		"@nestjs/core": "^11.0.0",
-		"@types/express": "^5.0.0",
-		"@types/node": "^22.10.2",
-		"tsup": "^8.3.5",
-		"typescript": "^5.7.3",
-		"vitest": "^2.0.0"
-	},
-	"engines": {
-		"node": ">=20.0.0",
-		"pnpm": ">=9.0.0"
-	}
+  "name": "@bniddam-labs/core",
+  "version": "0.1.0",
+  "description": "Core infrastructure package for NestJS backend (config, logging, error handling, HTTP filters/interceptors)",
+  "main": "./dist/index.js",
+  "module": "./dist/index.mjs",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.mjs",
+      "require": "./dist/index.js"
+    },
+    "./config": {
+      "types": "./dist/config/index.d.ts",
+      "import": "./dist/config/index.mjs",
+      "require": "./dist/config/index.js"
+    },
+    "./logging": {
+      "types": "./dist/logging/index.d.ts",
+      "import": "./dist/logging/index.mjs",
+      "require": "./dist/logging/index.js"
+    },
+    "./http": {
+      "types": "./dist/http/index.d.ts",
+      "import": "./dist/http/index.mjs",
+      "require": "./dist/http/index.js"
+    }
+  },
+  "scripts": {
+    "build": "tsup",
+    "dev": "tsup --watch",
+    "clean": "rm -rf dist",
+    "lint": "biome lint .",
+    "lint:fix": "biome lint --write .",
+    "format": "biome format --write .",
+    "check": "biome check . && pnpm run typecheck",
+    "typecheck": "tsc --noEmit",
+    "test": "vitest",
+    "test:watch": "vitest --watch",
+    "test:coverage": "vitest --coverage",
+    "prepublishOnly": "pnpm run build"
+  },
+  "keywords": [
+    "nestjs",
+    "core",
+    "infrastructure",
+    "configuration",
+    "logging",
+    "error-handling",
+    "http-filters",
+    "interceptors"
+  ],
+  "author": "bniddam",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/bniddam-labs/core.git"
+  },
+  "bugs": {
+    "url": "https://github.com/bniddam-labs/core/issues"
+  },
+  "homepage": "https://github.com/bniddam-labs/core#readme",
+  "files": [
+    "src",
+    "dist",
+    "README.md",
+    "LICENSE",
+    "*.json",
+    "*.ts"
+  ],
+  "peerDependencies": {
+    "@nestjs/common": "^11.0.0",
+    "@nestjs/core": "^11.0.0"
+  },
+  "dependencies": {
+    "@bniddam-labs/utils": "github:bniddam-labs/utils#v0.2.0",
+    "reflect-metadata": "^0.2.2",
+    "rxjs": "^7.8.1",
+    "zod": "^3.24.1"
+  },
+  "devDependencies": {
+    "@biomejs/biome": "2.3.2",
+    "@nestjs/common": "^11.0.0",
+    "@nestjs/core": "^11.0.0",
+    "@types/express": "^5.0.0",
+    "@types/node": "^22.10.2",
+    "tsup": "^8.3.5",
+    "typescript": "^5.7.3",
+    "vitest": "^2.0.0"
+  },
+  "engines": {
+    "node": ">=20.0.0",
+    "pnpm": ">=9.0.0"
+  }
 }

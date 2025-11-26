@@ -1,9 +1,9 @@
 import type {
+  AuthEvent,
   ILogger,
   LoggerConfig,
   LogLevel,
   LogMetadata,
-  AuthEvent,
   SecuritySeverity,
 } from './types';
 
