@@ -40,6 +40,7 @@
     "test:watch": "vitest --watch",
     "test:coverage": "vitest --coverage",
     "prepublishOnly": "pnpm run build"
+    "prepare": "pnpm run build",
   },
   "keywords": [
     "nestjs",
@@ -62,9 +63,12 @@
   },
   "homepage": "https://github.com/bniddam-labs/core#readme",
   "files": [
+    "src",
     "dist",
     "README.md",
-    "LICENSE"
+    "LICENSE",
+    "*.json",
+    "*.ts"
   ],
   "peerDependencies": {
     "@nestjs/common": "^11.0.0",
