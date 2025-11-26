@@ -55,12 +55,12 @@
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/bniddam/core.git"
+    "url": "git+https://github.com/bniddam-labs/core.git"
   },
   "bugs": {
-    "url": "https://github.com/bniddam/core/issues"
+    "url": "https://github.com/bniddam-labs/core/issues"
   },
-  "homepage": "https://github.com/bniddam/core#readme",
+  "homepage": "https://github.com/bniddam-labs/core#readme",
   "files": [
     "dist",
     "README.md",
