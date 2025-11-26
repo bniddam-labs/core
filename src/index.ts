@@ -12,6 +12,3 @@ export * from './config';
 
 // Logging
 export * from './logging';
-
-// HTTP utilities
-export * from './http';
