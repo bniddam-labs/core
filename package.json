@@ -1,6 +1,6 @@
 {
   "name": "@bniddam-labs/core",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Core infrastructure package for NestJS backend (config, logging, error handling, HTTP filters/interceptors)",
   "main": "./dist/index.js",
   "module": "./dist/index.mjs",
@@ -39,6 +39,7 @@
     "test": "vitest",
     "test:watch": "vitest --watch",
     "test:coverage": "vitest --coverage",
+    "postinstall": "pnpm run build",
     "prepublishOnly": "pnpm run build"
   },
   "keywords": [
