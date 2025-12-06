@@ -1,6 +1,6 @@
 {
   "name": "@bniddam-labs/core",
-  "version": "0.1.1",
+  "version": "0.2.0",
   "description": "Core infrastructure package for NestJS backend (config, logging, error handling, HTTP filters/interceptors)",
   "main": "./dist/index.js",
   "module": "./dist/index.mjs",
@@ -10,21 +10,6 @@
       "types": "./dist/index.d.ts",
       "import": "./dist/index.mjs",
       "require": "./dist/index.js"
-    },
-    "./config": {
-      "types": "./dist/config/index.d.ts",
-      "import": "./dist/config/index.mjs",
-      "require": "./dist/config/index.js"
-    },
-    "./logging": {
-      "types": "./dist/logging/index.d.ts",
-      "import": "./dist/logging/index.mjs",
-      "require": "./dist/logging/index.js"
-    },
-    "./http": {
-      "types": "./dist/http/index.d.ts",
-      "import": "./dist/http/index.mjs",
-      "require": "./dist/http/index.js"
     }
   },
   "scripts": {
