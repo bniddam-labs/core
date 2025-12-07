@@ -1,8 +1,8 @@
 import * as dotenv from 'dotenv';
 import * as fs from 'node:fs';
 import * as path from 'node:path';
-import type { PartialConfiguration } from './types';
-import { getEnv, parseArray, parseBoolean, parseNumber } from './utils';
+import type { PartialConfiguration } from './types.js';
+import { getEnv, parseArray, parseBoolean, parseNumber } from './utils.js';
 
 /**
  * Configuration loaders - functions to load configuration from various sources

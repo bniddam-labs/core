@@ -12,7 +12,7 @@ import type {
   RabbitMQConfigSchema,
   RedisConfigSchema,
   S3ConfigSchema,
-} from './schema';
+} from './schema.js';
 
 /**
  * Configuration types derived from Zod schemas

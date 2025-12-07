@@ -11,11 +11,11 @@ import type {
   RabbitMQConfig,
   RedisConfig,
   S3Config,
-} from './types';
-import { getPreset } from './defaults';
-import { loadDotEnv, loadFromEnv, loadFromFile, loadTestConfig } from './loaders';
-import { deepMerge } from './utils';
-import { validateConfig } from './validators';
+} from './types.js';
+import { getPreset } from './defaults.js';
+import { loadDotEnv, loadFromEnv, loadFromFile, loadTestConfig } from './loaders.js';
+import { deepMerge } from './utils.js';
+import { validateConfig } from './validators.js';
 
 /**
  * Fluent configuration builder

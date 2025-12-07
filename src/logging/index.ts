@@ -20,5 +20,5 @@
  * ```
  */
 
-export * from './types';
-export * from './console-logger';
+export * from './types.js';
+export * from './console-logger.js';

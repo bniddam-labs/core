@@ -1,4 +1,4 @@
-import type { PartialConfiguration } from './types';
+import type { PartialConfiguration } from './types.js';
 
 /**
  * Default/preset configurations

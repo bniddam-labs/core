@@ -5,7 +5,7 @@ import type {
   LogLevel,
   LogMetadata,
   SecuritySeverity,
-} from './types';
+} from './types.js';
 
 /**
  * ANSI color codes for terminal output

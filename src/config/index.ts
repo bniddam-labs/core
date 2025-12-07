@@ -17,10 +17,10 @@
  */
 
 // Schemas (source of truth)
-export * from './schema';
+export * from './schema.js';
 
 // Types (derived from schemas)
-export * from './types';
+export * from './types.js';
 
 // Builder (fluent configuration builder)
 export {
@@ -30,10 +30,10 @@ export {
   createConfigFromEnv,
   createConfigFromPreset,
   createTestConfig,
-} from './builder';
+} from './builder.js';
 
 // Loaders (environment, file, test)
-export { loadDotEnv, loadFromEnv, loadFromFile, loadTestConfig } from './loaders';
+export { loadDotEnv, loadFromEnv, loadFromFile, loadTestConfig } from './loaders.js';
 
 // Validators (validation and logging helpers)
 export {
@@ -42,7 +42,7 @@ export {
   validatePartialConfig,
   logConfigSafely,
   getConfigSummary,
-} from './validators';
+} from './validators.js';
 
 // Utils (deep merge, secret masking, parsing)
 export {
@@ -54,7 +54,7 @@ export {
   requireEnv,
   getEnv,
   validateProductionSecrets,
-} from './utils';
+} from './utils.js';
 
 // Defaults (optional presets - NOT auto-applied)
 export {
@@ -68,4 +68,4 @@ export {
   DEFAULT_JWT_CONFIG,
   DEFAULT_RATE_LIMIT,
   DEFAULT_LOGGING_CONFIG,
-} from './defaults';
+} from './defaults.js';

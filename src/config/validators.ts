@@ -1,7 +1,7 @@
 import { ZodError } from 'zod';
-import { ConfigurationSchema } from './schema';
-import type { Configuration, PartialConfiguration } from './types';
-import { maskSecrets, validateProductionSecrets } from './utils';
+import { ConfigurationSchema } from './schema.js';
+import type { Configuration, PartialConfiguration } from './types.js';
+import { maskSecrets, validateProductionSecrets } from './utils.js';
 
 /**
  * Validation utilities for configuration

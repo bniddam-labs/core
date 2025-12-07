@@ -8,7 +8,7 @@
  */
 
 // Configuration
-export * from './config';
+export * from './config/index.js';
 
 // Logging
-export * from './logging';
+export * from './logging/index.js';
