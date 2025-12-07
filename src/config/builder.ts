@@ -13,7 +13,7 @@ import type {
   S3Config,
 } from './types';
 import { getPreset } from './defaults';
-import { loadFromEnv, loadFromFile, loadTestConfig } from './loaders';
+import { loadDotEnv, loadFromEnv, loadFromFile, loadTestConfig } from './loaders';
 import { deepMerge } from './utils';
 import { validateConfig } from './validators';
 
@@ -113,6 +113,17 @@ export class ConfigBuilder {
   featureFlags(config: Partial<FeatureFlagsConfig>): this {
     this.config.featureFlags = deepMerge(this.config.featureFlags || {}, config);
     return this;
+  }
+
+  /**
+   * Load .env file and then load configuration from environment variables
+   * @param envFilePath - Path to .env file (defaults to .env in current directory)
+   * @param prefix - Optional prefix for environment variables (e.g., 'APP_')
+   * @param override - Whether to override existing environment variables
+   */
+  fromDotEnv(envFilePath = '.env', prefix = '', override = false): this {
+    loadDotEnv(envFilePath, override);
+    return this.fromEnv(prefix);
   }
 
   /**
@@ -274,6 +285,17 @@ export class ConfigBuilder {
  */
 export function createConfigBuilder(): ConfigBuilder {
   return new ConfigBuilder();
+}
+
+/**
+ * Quick helper to create config from .env file
+ * @param envFilePath - Path to .env file (defaults to .env in current directory)
+ * @param prefix - Optional prefix for environment variables
+ * @param override - Whether to override existing environment variables
+ * @returns Validated configuration
+ */
+export function createConfigFromDotEnv(envFilePath = '.env', prefix = '', override = false): Configuration {
+  return createConfigBuilder().fromDotEnv(envFilePath, prefix, override).build();
 }
 
 /**

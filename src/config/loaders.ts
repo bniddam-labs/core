@@ -1,3 +1,6 @@
+import * as dotenv from 'dotenv';
+import * as fs from 'node:fs';
+import * as path from 'node:path';
 import type { PartialConfiguration } from './types';
 import { getEnv, parseArray, parseBoolean, parseNumber } from './utils';
 
@@ -6,6 +9,19 @@ import { getEnv, parseArray, parseBoolean, parseNumber } from './utils';
  * These are helpers that DON'T create fixed config, but provide utilities
  * for consuming projects to use when building their config
  */
+
+/**
+ * Load .env file into process.env
+ * @param envFilePath - Path to .env file (defaults to .env in current directory)
+ * @param override - Whether to override existing environment variables
+ */
+export function loadDotEnv(envFilePath = '.env', override = false): void {
+  const resolvedPath = path.resolve(process.cwd(), envFilePath);
+  
+  if (fs.existsSync(resolvedPath)) {
+    dotenv.config({ path: resolvedPath, override });
+  }
+}
 
 /**
  * Load configuration from environment variables

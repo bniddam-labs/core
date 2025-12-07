@@ -26,13 +26,14 @@ export * from './types';
 export {
   ConfigBuilder,
   createConfigBuilder,
+  createConfigFromDotEnv,
   createConfigFromEnv,
   createConfigFromPreset,
   createTestConfig,
 } from './builder';
 
 // Loaders (environment, file, test)
-export { loadFromEnv, loadFromFile, loadTestConfig } from './loaders';
+export { loadDotEnv, loadFromEnv, loadFromFile, loadTestConfig } from './loaders';
 
 // Validators (validation and logging helpers)
 export {
