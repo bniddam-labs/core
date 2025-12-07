@@ -50,7 +50,7 @@ export function loadFromEnv(prefix = ''): PartialConfiguration {
       password: getEnv(prefixKey('DATABASE_PASSWORD'), 'postgres'),
       database: getEnv(prefixKey('DATABASE_NAME'), 'nestjs_boilerplate'),
       synchronize: !parseBoolean(process.env[prefixKey('USE_MIGRATIONS')], false),
-      dropSchema: false,
+      dropSchema: parseBoolean(process.env[prefixKey('DATABASE_DROP_SCHEMA')], false),
       logging: parseBoolean(process.env[prefixKey('DATABASE_LOGGING')], false),
       ssl: parseBoolean(process.env[prefixKey('DATABASE_SSL')], false),
       autoLoadEntities: true,
