@@ -38,47 +38,91 @@ pnpm add @bniddam/core @bniddam/utils
 npm install @bniddam/core @bniddam/utils
 ```
 
+### Using github
+
+```bash
+pnpm add github:bniddam-labs/core
+# or
+npm install github:bniddam-labs/core
+```
+
 ## Usage
 
 ### Configuration
 
-```typescript
-import { ConfigModule } from '@nestjs/config';
-import { loadAppConfig, validateEnv } from '@bniddam/core/config';
+**IMPORTANT**: Environment variable names are **case-sensitive** and **must match exactly**.
+- See [`.env.example`](./.env.example) for a complete template with all variables, types, and defaults
+- Check the [Configuration README](./src/config/README.md) for detailed documentation
 
-@Module({
-  imports: [
-    ConfigModule.forRoot({
-      isGlobal: true,
-      load: [loadAppConfig],
-      validate: validateEnv,
-    }),
-  ],
-})
-export class AppModule {}
+#### Quick Start
+
+Using the configuration builder:
+
+```typescript
+import { createConfigBuilder } from '@bniddam/core/config';
+
+// Load from environment variables
+const config = createConfigBuilder()
+	.fromEnv()
+	.build();
+
+// Use configuration in your app
+console.log(config.app.port); // 3000
+console.log(config.database.host); // localhost
 ```
 
-Define your configuration schema:
+#### With Presets and Overrides
 
 ```typescript
-import { z } from 'zod';
-import { createConfigLoader } from '@bniddam/core/config';
+import { createConfigBuilder } from '@bniddam/core/config';
 
-const AppConfigSchema = z.object({
-  port: z.number().default(3000),
-  database: z.object({
-    host: z.string(),
-    port: z.number(),
-    name: z.string(),
-  }),
-  jwt: z.object({
-    secret: z.string(),
-    expiresIn: z.string().default('15m'),
-  }),
+// Production setup with debug logging override
+const config = createConfigBuilder()
+	.preset('production') // Apply production preset
+	.fromEnv() // Load environment variables
+	.override({ logging: { level: 'debug' } }) // Override specific values
+	.build();
+```
+
+#### Quick Helpers
+
+```typescript
+import {
+	createConfigFromEnv,
+	createConfigFromPreset,
+	createTestConfig
+} from '@bniddam/core/config';
+
+// Simple config from environment
+const config = createConfigFromEnv();
+
+// Config from preset with overrides
+const prodConfig = createConfigFromPreset('production', {
+	app: { port: 4000 }
 });
 
-export type AppConfig = z.infer<typeof AppConfigSchema>;
-export const loadAppConfig = createConfigLoader('app', AppConfigSchema);
+// Test configuration
+const testConfig = createTestConfig();
+```
+
+#### With NestJS
+
+```typescript
+import { ConfigModule } from '@nestjs/config';
+import { createConfigFromEnv } from '@bniddam/core/config';
+
+// Load config once
+const appConfig = createConfigFromEnv();
+
+@Module({
+	imports: [
+		ConfigModule.forRoot({
+			isGlobal: true,
+			load: [() => appConfig], // Use the config
+		}),
+	],
+})
+export class AppModule {}
 ```
 
 ### Logging
@@ -88,46 +132,43 @@ import { AppLoggerService } from '@bniddam/core/logging';
 
 @Injectable()
 export class UserService {
-  constructor(private readonly logger: AppLoggerService) {
-    this.logger.setContext(UserService.name);
-  }
+	constructor(private readonly logger: AppLoggerService) {
+		this.logger.setContext(UserService.name);
+	}
 
-  async createUser(data: CreateUserDto) {
-    this.logger.log('Creating user', { email: data.email });
+	async createUser(data: CreateUserDto) {
+		this.logger.log('Creating user', { email: data.email });
 
-    try {
-      // ... create user logic
-      this.logger.log('User created successfully', { userId: user.id });
-      return user;
-    } catch (error) {
-      this.logger.error('Failed to create user', error.stack, {
-        email: data.email
-      });
-      throw error;
-    }
-  }
+		try {
+			// ... create user logic
+			this.logger.log('User created successfully', { userId: user.id });
+			return user;
+		} catch (error) {
+			this.logger.error('Failed to create user', error.stack, {
+				email: data.email,
+			});
+			throw error;
+		}
+	}
 }
 ```
 
 ### HTTP Filters
 
 ```typescript
-import {
-  AllExceptionsFilter,
-  HttpExceptionFilter
-} from '@bniddam/core/http';
+import { AllExceptionsFilter, HttpExceptionFilter } from '@bniddam/core/http';
 
 @Module({
-  providers: [
-    {
-      provide: APP_FILTER,
-      useClass: AllExceptionsFilter,
-    },
-    {
-      provide: APP_FILTER,
-      useClass: HttpExceptionFilter,
-    },
-  ],
+	providers: [
+		{
+			provide: APP_FILTER,
+			useClass: AllExceptionsFilter,
+		},
+		{
+			provide: APP_FILTER,
+			useClass: HttpExceptionFilter,
+		},
+	],
 })
 export class AppModule {}
 ```
@@ -138,12 +179,12 @@ export class AppModule {}
 import { LoggingInterceptor } from '@bniddam/core/http';
 
 @Module({
-  providers: [
-    {
-      provide: APP_INTERCEPTOR,
-      useClass: LoggingInterceptor,
-    },
-  ],
+	providers: [
+		{
+			provide: APP_INTERCEPTOR,
+			useClass: LoggingInterceptor,
+		},
+	],
 })
 export class AppModule {}
 ```
@@ -152,9 +193,48 @@ export class AppModule {}
 
 ### Configuration (`@bniddam/core/config`)
 
-- `createConfigLoader(namespace, schema)` - Create a configuration loader with validation
-- `validateEnv(config)` - Validate environment variables
-- `AppConfigType` - Base configuration type interface
+**Builder API:**
+- `createConfigBuilder()` - Create a new configuration builder
+- `createConfigFromEnv()` - Quick helper to load config from environment
+- `createConfigFromPreset(name, overrides?)` - Create config from preset
+- `createTestConfig()` - Create test configuration
+
+**Validation:**
+- `validateConfig(config)` - Validate configuration (throws on error)
+- `safeValidateConfig(config)` - Safe validation (returns result object)
+- `validatePartialConfig(config)` - Validate partial configuration
+
+**Loaders:**
+- `loadFromEnv(prefix?)` - Load configuration from environment variables
+- `loadFromFile(path)` - Load configuration from JSON file
+- `loadTestConfig()` - Load minimal test configuration
+- `loadDotEnv(path?, override?)` - Load .env file into process.env
+
+**Utilities:**
+- `deepMerge(target, source)` - Deep merge objects
+- `maskSecrets(config)` - Mask sensitive values
+- `logConfigSafely(config)` - Log configuration with secrets masked
+- `getConfigSummary(config)` - Get safe configuration summary
+- `parseBoolean(value, defaultValue?)` - Parse boolean from string
+- `parseNumber(value, defaultValue?)` - Parse number from string
+- `parseArray(value, defaultValue?)` - Parse array from comma-separated string
+- `requireEnv(key)` - Get required environment variable
+- `getEnv(key, defaultValue)` - Get environment variable with default
+- `validateProductionSecrets(config)` - Validate production secrets
+
+**Presets:**
+- `DEVELOPMENT_PRESET` - Development environment preset
+- `PRODUCTION_PRESET` - Production environment preset
+- `STAGING_PRESET` - Staging environment preset
+- `TEST_PRESET` - Test environment preset
+- `getPreset(name)` - Get preset by name
+
+**Types:**
+- `Configuration` - Complete configuration type
+- `PartialConfiguration` - Partial configuration type
+- All specific config types (AppConfig, DatabaseConfig, AuthConfig, etc.)
+
+See [Configuration README](./src/config/README.md) for detailed usage examples.
 
 ### Logging (`@bniddam/core/logging`)
 

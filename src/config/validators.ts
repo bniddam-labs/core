@@ -23,7 +23,9 @@ export function validateConfig(config: unknown): Configuration {
     return validated;
   } catch (error) {
     if (error instanceof ZodError) {
-      const errorMessages = error.errors.map((err) => `  - ${err.path.join('.')}: ${err.message}`).join('\n');
+      const errorMessages = error.errors
+        .map((err) => `  - ${err.path.join('.')}: ${err.message}`)
+        .join('\n');
 
       throw new Error(`Configuration validation failed:\n${errorMessages}`);
     }
@@ -73,7 +75,9 @@ export function validatePartialConfig(config: PartialConfiguration): boolean {
   const result = ConfigurationSchema.partial().safeParse(config);
 
   if (!result.success) {
-    const errorMessages = result.error.errors.map((err) => `  - ${err.path.join('.')}: ${err.message}`).join('\n');
+    const errorMessages = result.error.errors
+      .map((err) => `  - ${err.path.join('.')}: ${err.message}`)
+      .join('\n');
 
     throw new Error(`Partial configuration validation failed:\n${errorMessages}`);
   }
@@ -86,7 +90,10 @@ export function validatePartialConfig(config: PartialConfiguration): boolean {
  * @param config - Configuration object to log
  * @param logger - Optional logger function (defaults to console.log)
  */
-export function logConfigSafely(config: Configuration, logger: (msg: string) => void = console.log): void {
+export function logConfigSafely(
+  config: Configuration,
+  logger: (msg: string) => void = console.log,
+): void {
   const masked = maskSecrets(config);
   logger(`Configuration loaded:\n${JSON.stringify(masked, null, 2)}`);
 }

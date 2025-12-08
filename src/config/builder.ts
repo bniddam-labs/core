@@ -1,3 +1,5 @@
+import { getPreset } from './defaults.js';
+import { loadDotEnv, loadFromEnv, loadFromFile, loadTestConfig } from './loaders.js';
 import type {
   AdminConfig,
   AppConfig,
@@ -12,8 +14,6 @@ import type {
   RedisConfig,
   S3Config,
 } from './types.js';
-import { getPreset } from './defaults.js';
-import { loadDotEnv, loadFromEnv, loadFromFile, loadTestConfig } from './loaders.js';
 import { deepMerge } from './utils.js';
 import { validateConfig } from './validators.js';
 
@@ -28,9 +28,7 @@ export class ConfigBuilder {
    * Set environment (development, staging, production, test)
    */
   environment(env: AppConfig['nodeEnv']): this {
-    if (!this.config.app) {
-      this.config.app = {};
-    }
+    this.config.app ??= {};
     this.config.app.nodeEnv = env;
     return this;
   }
@@ -294,7 +292,11 @@ export function createConfigBuilder(): ConfigBuilder {
  * @param override - Whether to override existing environment variables
  * @returns Validated configuration
  */
-export function createConfigFromDotEnv(envFilePath = '.env', prefix = '', override = false): Configuration {
+export function createConfigFromDotEnv(
+  envFilePath = '.env',
+  prefix = '',
+  override = false,
+): Configuration {
   return createConfigBuilder().fromDotEnv(envFilePath, prefix, override).build();
 }
 

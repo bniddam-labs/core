@@ -409,7 +409,9 @@ function validateProductionSecrets(config2) {
     return;
   }
   if (!((_b = config2.auth) == null ? void 0 : _b.jwtSecret) || config2.auth.jwtSecret.length < 32) {
-    throw new Error("SECURITY ERROR: JWT_SECRET must be set with at least 32 characters in production");
+    throw new Error(
+      "SECURITY ERROR: JWT_SECRET must be set with at least 32 characters in production"
+    );
   }
   if (!((_c = config2.auth) == null ? void 0 : _c.jwtRefreshSecret) || config2.auth.jwtRefreshSecret.length < 32) {
     throw new Error(
@@ -422,7 +424,9 @@ function validateProductionSecrets(config2) {
     );
   }
   if (!((_e = config2.database) == null ? void 0 : _e.password) || config2.database.password === "postgres") {
-    throw new Error("SECURITY ERROR: DATABASE_PASSWORD must be set to a strong password in production");
+    throw new Error(
+      "SECURITY ERROR: DATABASE_PASSWORD must be set to a strong password in production"
+    );
   }
 }
 
@@ -463,12 +467,18 @@ function loadFromEnv(prefix = "") {
     },
     auth: __spreadValues(__spreadValues({
       jwtSecret: getEnv(prefixKey("JWT_SECRET"), "jwt-secret-key-DEVELOPMENT-ONLY"),
-      jwtRefreshSecret: getEnv(prefixKey("JWT_REFRESH_SECRET"), "jwt-refresh-secret-key-DEVELOPMENT-ONLY"),
+      jwtRefreshSecret: getEnv(
+        prefixKey("JWT_REFRESH_SECRET"),
+        "jwt-refresh-secret-key-DEVELOPMENT-ONLY"
+      ),
       jwtExpiresIn: getEnv(prefixKey("JWT_EXPIRES_IN"), "15m"),
       jwtRefreshExpiresIn: getEnv(prefixKey("JWT_REFRESH_EXPIRES_IN"), "7d"),
       bcryptRounds: parseNumber(process.env[prefixKey("BCRYPT_ROUNDS")], 12),
       maxFailedAttempts: parseNumber(process.env[prefixKey("AUTH_MAX_FAILED_ATTEMPTS")], 5),
-      lockoutDurationMinutes: parseNumber(process.env[prefixKey("AUTH_LOCKOUT_DURATION_MINUTES")], 30)
+      lockoutDurationMinutes: parseNumber(
+        process.env[prefixKey("AUTH_LOCKOUT_DURATION_MINUTES")],
+        30
+      )
     }, process.env[prefixKey("GOOGLE_CLIENT_ID")] && process.env[prefixKey("GOOGLE_CLIENT_SECRET")] ? {
       google: {
         clientId: process.env[prefixKey("GOOGLE_CLIENT_ID")],
@@ -714,9 +724,8 @@ var ConfigBuilder = class _ConfigBuilder {
    * Set environment (development, staging, production, test)
    */
   environment(env) {
-    if (!this.config.app) {
-      this.config.app = {};
-    }
+    var _a, _b;
+    (_b = (_a = this.config).app) != null ? _b : _a.app = {};
     this.config.app.nodeEnv = env;
     return this;
   }

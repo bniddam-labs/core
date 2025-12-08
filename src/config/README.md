@@ -184,46 +184,110 @@ const config = createConfigBuilder()
 
 ## Environment Variables
 
-The `loadFromEnv()` function maps these environment variables:
+**IMPORTANT**: Environment variable names are **case-sensitive** and **must match exactly** as shown below. The `loadFromEnv()` function expects these specific names and cannot be customized without modifying the config loader.
 
-### Application
-- `APP_NAME`, `APP_URL`, `FRONTEND_URL`, `PORT`, `NODE_ENV`
-- `CORS_ORIGIN`, `RATE_LIMIT_MAX`, `RATE_LIMIT_TTL`
+See `.env.example` in the project root for a complete template with detailed comments, types, and default values.
 
-### Database
-- `DATABASE_HOST`, `DATABASE_PORT`, `DATABASE_USERNAME`, `DATABASE_PASSWORD`
-- `DATABASE_NAME`, `DATABASE_SSL`, `DATABASE_LOGGING`, `RUN_MIGRATIONS`, `RLS_ENABLED`
+### Quick Reference
 
-### Authentication
-- `JWT_SECRET`, `JWT_REFRESH_SECRET`, `JWT_EXPIRES_IN`, `JWT_REFRESH_EXPIRES_IN`
-- `BCRYPT_ROUNDS`, `AUTH_MAX_FAILED_ATTEMPTS`, `AUTH_LOCKOUT_DURATION_MINUTES`
-- `GOOGLE_CLIENT_ID`, `GOOGLE_CLIENT_SECRET`
-- `GITHUB_CLIENT_ID`, `GITHUB_CLIENT_SECRET`
+#### Application
+- `APP_NAME` - Application name (string, default: "NestJS Boilerplate")
+- `APP_URL` - Backend URL (string, default: "http://localhost:3000")
+- `FRONTEND_URL` - Frontend URL (string, default: "http://localhost:3001")
+- `PORT` - Server port (number, default: 3000)
+- `NODE_ENV` - Environment (string, default: "development")
+- `CORS_ORIGIN` - CORS origins (string, default: "*")
+- `RATE_LIMIT_MAX` - Max requests per window (number, default: 100)
+- `RATE_LIMIT_TTL` - Rate limit window in seconds (number, default: 60)
 
-### Redis
-- `REDIS_HOST`, `REDIS_PORT`, `REDIS_PASSWORD`, `REDIS_DB`, `CACHE_TTL`
+#### Database
+- `DATABASE_HOST` - Database host (string, default: "localhost")
+- `DATABASE_PORT` - Database port (number, default: 5432)
+- `DATABASE_USERNAME` - Database user (string, default: "postgres")
+- `DATABASE_PASSWORD` - Database password (string, default: "postgres")
+- `DATABASE_NAME` - Database name (string, default: "nestjs_boilerplate")
+- `DATABASE_SSL` - Enable SSL (boolean, default: false)
+- `DATABASE_LOGGING` - Enable SQL logging (boolean, default: false)
+- `USE_MIGRATIONS` - Use migrations (boolean, default: false) - When true: synchronize=false, migrationsRun=true
+- `DATABASE_DROP_SCHEMA` - Drop schema on startup (boolean, default: false) **WARNING: Deletes all data!**
+- `RLS_ENABLED` - Enable Row-Level Security (boolean, default: false)
 
-### Admin
-- `ADMIN_EMAIL`, `ADMIN_PASSWORD`, `ADMIN_ALLOWED_IPS`
+#### Authentication
+- `JWT_SECRET` - JWT secret key (string, **required in production**, min 32 chars)
+- `JWT_REFRESH_SECRET` - JWT refresh secret (string, **required in production**, min 32 chars)
+- `JWT_EXPIRES_IN` - Token expiration (string, default: "15m")
+- `JWT_REFRESH_EXPIRES_IN` - Refresh token expiration (string, default: "7d")
+- `BCRYPT_ROUNDS` - Password hashing rounds (number, default: 12)
+- `AUTH_MAX_FAILED_ATTEMPTS` - Max failed login attempts (number, default: 5)
+- `AUTH_LOCKOUT_DURATION_MINUTES` - Lockout duration (number, default: 30)
+- `GOOGLE_CLIENT_ID` - Google OAuth client ID (string, optional)
+- `GOOGLE_CLIENT_SECRET` - Google OAuth secret (string, optional)
+- `GITHUB_CLIENT_ID` - GitHub OAuth client ID (string, optional)
+- `GITHUB_CLIENT_SECRET` - GitHub OAuth secret (string, optional)
 
-### Email
-- `EMAIL_STATUS`, `EMAIL_FROM`, `BREVO_API_KEY`
-- `SMTP_HOST`, `SMTP_PORT`, `SMTP_SECURE`, `SMTP_USER`, `SMTP_PASS`
+#### Redis
+- `REDIS_HOST` - Redis host (string, default: "localhost")
+- `REDIS_PORT` - Redis port (number, default: 6379)
+- `REDIS_PASSWORD` - Redis password (string, optional)
+- `REDIS_DB` - Redis database number (number, default: 0)
+- `CACHE_TTL` - Cache TTL in seconds (number, default: 3600)
+- `REDIS_KEY_PREFIX` - Redis key prefix (string, default: "cache:")
 
-### S3 Storage
-- `S3_ENDPOINT`, `S3_PORT`, `S3_USE_SSL`, `S3_REGION`
-- `S3_ACCESS_KEY`, `S3_SECRET_KEY`, `S3_BUCKET_NAME`
+#### Admin
+- `ADMIN_EMAIL` - Admin email (string, default: "admin@example.com")
+- `ADMIN_PASSWORD` - Admin password (string, **required in production**)
+- `ADMIN_ALLOWED_IPS` - Allowed IP addresses (comma-separated, optional)
 
-### RabbitMQ
-- `RABBITMQ_URI`, `RABBITMQ_USER`, `RABBITMQ_PASSWORD`, `RABBITMQ_HOST`
-- `RABBITMQ_PORT`, `RABBITMQ_VHOST`, `RABBITMQ_EXCHANGE`, `RABBITMQ_DLX_EXCHANGE`
+#### Email
+- `EMAIL_STATUS` - Enable email sending (string, "enabled" or other, default: disabled)
+- `EMAIL_FROM` - From email address (string, default: "noreply@example.com")
+- `BREVO_API_KEY` - Brevo API key (string, optional)
+- `SMTP_HOST` - SMTP host (string, optional)
+- `SMTP_PORT` - SMTP port (number, default: 587)
+- `SMTP_SECURE` - Use TLS (boolean, default: true)
+- `SMTP_USER` - SMTP username (string, optional)
+- `SMTP_PASS` - SMTP password (string, optional)
 
-### Logging
-- `LOG_LEVEL`, `LOG_FORMAT`, `LOG_TRANSPORTS`, `LOG_FILE`
-- `LOG_MAX_SIZE`, `LOG_MAX_FILES`
+#### S3 Storage
+- `S3_ENDPOINT` - S3 endpoint (string, default: "s3.amazonaws.com")
+- `S3_PORT` - S3 port (number, default: 443)
+- `S3_USE_SSL` - Use SSL (boolean, default: true)
+- `S3_REGION` - S3 region (string, default: "eu-west-3")
+- `S3_ACCESS_KEY` - S3 access key (string, default: "")
+- `S3_SECRET_KEY` - S3 secret key (string, default: "")
+- `S3_BUCKET_NAME` - S3 bucket name (string, default: "nestjs-boilerplate-files")
 
-### Feature Flags
-- `FEATURE_NEW_UI`, `FEATURE_BETA`, `FEATURE_ANALYTICS`, `MAINTENANCE_MODE`
+#### RabbitMQ
+- `RABBITMQ_URI` - Full connection URI (string, optional - overrides individual settings)
+- `RABBITMQ_USER` - RabbitMQ user (string, default: "guest")
+- `RABBITMQ_PASSWORD` - RabbitMQ password (string, default: "guest")
+- `RABBITMQ_HOST` - RabbitMQ host (string, default: "localhost")
+- `RABBITMQ_PORT` - RabbitMQ port (string, default: "5672")
+- `RABBITMQ_VHOST` - RabbitMQ virtual host (string, default: "/")
+- `RABBITMQ_EXCHANGE` - Exchange name (string, default: "app.notifications")
+- `RABBITMQ_DLX_EXCHANGE` - Dead-letter exchange (string, default: "app.notifications.dlx")
+
+#### Logging
+- `LOG_LEVEL` - Log level (string, default: "info") - Values: error, warn, info, debug, verbose
+- `LOG_FORMAT` - Log format (string, default: "json") - Values: json, pretty
+- `LOG_TRANSPORTS` - Transports (comma-separated, default: "console") - Values: console, file
+- `LOG_FILE` - Log file path (string, optional)
+- `LOG_MAX_SIZE` - Max log file size (string, default: "10m")
+- `LOG_MAX_FILES` - Max log files to keep (number, default: 5)
+
+#### Feature Flags
+- `FEATURE_NEW_UI` - Enable new UI (boolean, default: false)
+- `FEATURE_BETA` - Enable beta features (boolean, default: false)
+- `FEATURE_ANALYTICS` - Enable analytics (boolean, default: true)
+- `MAINTENANCE_MODE` - Maintenance mode (boolean, default: false)
+
+### Type Parsing
+
+The config loader automatically parses types:
+- **Boolean**: "true", "1", "yes" → true; "false", "0", "no" → false
+- **Number**: Parsed with parseInt/parseFloat
+- **Array**: Comma-separated values → string array
+- **String**: Used as-is
 
 ## Architecture
 

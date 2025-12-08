@@ -152,7 +152,9 @@ export function validateProductionSecrets(config: any): void {
 
   // JWT secrets validation
   if (!config.auth?.jwtSecret || config.auth.jwtSecret.length < 32) {
-    throw new Error('SECURITY ERROR: JWT_SECRET must be set with at least 32 characters in production');
+    throw new Error(
+      'SECURITY ERROR: JWT_SECRET must be set with at least 32 characters in production',
+    );
   }
 
   if (!config.auth?.jwtRefreshSecret || config.auth.jwtRefreshSecret.length < 32) {
@@ -174,6 +176,8 @@ export function validateProductionSecrets(config: any): void {
 
   // Database password validation
   if (!config.database?.password || config.database.password === 'postgres') {
-    throw new Error('SECURITY ERROR: DATABASE_PASSWORD must be set to a strong password in production');
+    throw new Error(
+      'SECURITY ERROR: DATABASE_PASSWORD must be set to a strong password in production',
+    );
   }
 }

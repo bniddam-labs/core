@@ -17,7 +17,7 @@ import { getEnv, parseArray, parseBoolean, parseNumber } from './utils.js';
  */
 export function loadDotEnv(envFilePath = '.env', override = false): void {
   const resolvedPath = path.resolve(process.cwd(), envFilePath);
-  
+
   if (fs.existsSync(resolvedPath)) {
     dotenv.config({ path: resolvedPath, override });
   }
@@ -59,13 +59,20 @@ export function loadFromEnv(prefix = ''): PartialConfiguration {
     },
     auth: {
       jwtSecret: getEnv(prefixKey('JWT_SECRET'), 'jwt-secret-key-DEVELOPMENT-ONLY'),
-      jwtRefreshSecret: getEnv(prefixKey('JWT_REFRESH_SECRET'), 'jwt-refresh-secret-key-DEVELOPMENT-ONLY'),
+      jwtRefreshSecret: getEnv(
+        prefixKey('JWT_REFRESH_SECRET'),
+        'jwt-refresh-secret-key-DEVELOPMENT-ONLY',
+      ),
       jwtExpiresIn: getEnv(prefixKey('JWT_EXPIRES_IN'), '15m'),
       jwtRefreshExpiresIn: getEnv(prefixKey('JWT_REFRESH_EXPIRES_IN'), '7d'),
       bcryptRounds: parseNumber(process.env[prefixKey('BCRYPT_ROUNDS')], 12),
       maxFailedAttempts: parseNumber(process.env[prefixKey('AUTH_MAX_FAILED_ATTEMPTS')], 5),
-      lockoutDurationMinutes: parseNumber(process.env[prefixKey('AUTH_LOCKOUT_DURATION_MINUTES')], 30),
-      ...(process.env[prefixKey('GOOGLE_CLIENT_ID')] && process.env[prefixKey('GOOGLE_CLIENT_SECRET')]
+      lockoutDurationMinutes: parseNumber(
+        process.env[prefixKey('AUTH_LOCKOUT_DURATION_MINUTES')],
+        30,
+      ),
+      ...(process.env[prefixKey('GOOGLE_CLIENT_ID')] &&
+      process.env[prefixKey('GOOGLE_CLIENT_SECRET')]
         ? {
             google: {
               clientId: process.env[prefixKey('GOOGLE_CLIENT_ID')] as string,
@@ -73,7 +80,8 @@ export function loadFromEnv(prefix = ''): PartialConfiguration {
             },
           }
         : {}),
-      ...(process.env[prefixKey('GITHUB_CLIENT_ID')] && process.env[prefixKey('GITHUB_CLIENT_SECRET')]
+      ...(process.env[prefixKey('GITHUB_CLIENT_ID')] &&
+      process.env[prefixKey('GITHUB_CLIENT_SECRET')]
         ? {
             github: {
               clientId: process.env[prefixKey('GITHUB_CLIENT_ID')] as string,
@@ -128,7 +136,8 @@ export function loadFromEnv(prefix = ''): PartialConfiguration {
       uri:
         process.env[prefixKey('RABBITMQ_URI')] ||
         `amqp://${getEnv(prefixKey('RABBITMQ_USER'), 'guest')}:${getEnv(prefixKey('RABBITMQ_PASSWORD'), 'guest')}@${getEnv(prefixKey('RABBITMQ_HOST'), 'localhost')}:${getEnv(prefixKey('RABBITMQ_PORT'), '5672')}${
-          process.env[prefixKey('RABBITMQ_VHOST')] && process.env[prefixKey('RABBITMQ_VHOST')] !== '/'
+          process.env[prefixKey('RABBITMQ_VHOST')] &&
+          process.env[prefixKey('RABBITMQ_VHOST')] !== '/'
             ? `/${process.env[prefixKey('RABBITMQ_VHOST')]}`
             : ''
         }`,
